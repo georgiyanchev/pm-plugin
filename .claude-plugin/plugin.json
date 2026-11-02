@@ -1,0 +1,8 @@
+{
+  "name": "pm",
+  "version": "0.16.4",
+  "description": "Product pipeline, free edition: project scaffold, quick track for small features, clickable prototype, one-pager for sponsor sign-off. The full edition adds idea discovery and validation, product PRD, architecture proposal with independent review, implementation prompt per milestone, build review with device script, capability gap audit, feature discovery, brief, PRD, design and retro.",
+  "author": {
+    "name": "Georgi Yanchev"
+  }
+}

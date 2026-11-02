@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plateful prototype</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+/* Component CSS. Direction 02 Market ledger; every value is a token from tokens.css. */
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--font-body);font-size:var(--text-m);line-height:var(--leading);color:var(--chrome-text);background:var(--chrome-bg);font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--color-focus);outline-offset:2px}
+button,input{font:inherit}
+
+/* mockup chrome: do not port */
+.chrome-top{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;justify-content:center;padding:var(--space-3);font-size:var(--text-xs)}
+.chrome-top button{min-height:40px;padding:0 var(--space-3);border:1px solid var(--chrome-text);background:transparent;color:inherit;border-radius:var(--radius-s);cursor:pointer}
+.chrome-top button[aria-pressed="true"]{background:var(--chrome-text);color:var(--chrome-bg)}
+.concept-banner{text-align:center;font-size:var(--text-xs);color:var(--chrome-text);padding:0 var(--space-3) var(--space-3)}
+.stage{display:flex;justify-content:center;align-items:flex-start;gap:var(--space-5);padding:0 var(--space-3) var(--space-6);flex-wrap:wrap}
+.frame{position:relative;width:var(--frame-w);height:var(--frame-h);background:var(--color-bg);border-radius:40px;box-shadow:var(--shadow-panel);overflow:hidden;border:6px solid var(--chrome-frame);display:flex;flex-direction:column;color:var(--color-text)}
+.status-bar{height:var(--status-h);flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 var(--space-5);font-size:var(--text-xs);font-weight:600}
+.home-indicator{height:var(--home-h);flex:none;display:flex;align-items:center;justify-content:center}
+.home-indicator::after{content:"";width:134px;height:5px;border-radius:3px;background:var(--color-text);opacity:.6}
+.tour-panel{width:300px;background:var(--chrome-surface);border:1px solid var(--chrome-rule);border-radius:var(--radius-l);padding:var(--space-4);font-size:var(--text-s)}
+.tour-panel h2{font-size:var(--text-m);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.tour-panel h2 button{min-width:44px;min-height:44px;border:0;background:transparent;color:inherit;cursor:pointer;font-size:var(--text-l)}
+.tour-item{display:block;width:100%;text-align:left;min-height:44px;padding:var(--space-2) var(--space-3);margin-top:var(--space-2);border:1px solid var(--chrome-rule);background:var(--chrome-bg);color:inherit;border-radius:var(--radius-s);cursor:pointer}
+.tour-step{margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--chrome-rule)}
+.tour-step .flow{font-weight:600}
+.tour-step .count{color:var(--chrome-text);opacity:.7;margin-left:var(--space-2)}
+.tour-step p{margin-top:var(--space-2)}
+.tour-step .buttons{display:flex;gap:var(--space-2);margin-top:var(--space-3)}
+.tour-step .buttons button{flex:1;min-height:44px;border:1px solid var(--chrome-text);background:transparent;color:inherit;border-radius:var(--radius-s);cursor:pointer}
+.tour-step .buttons button:disabled{opacity:.4;cursor:default}
+.tour-target{outline:3px solid var(--color-action);outline-offset:3px;border-radius:var(--radius-s)}
+/* end mockup chrome */
+
+/* product */
+#screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+#screen::-webkit-scrollbar{display:none}
+.screen{display:none;min-height:100%;padding:var(--space-3) var(--space-5) var(--space-5)}
+.screen.is-active{display:block}
+.screen.has-dock{padding-bottom:calc(var(--dock) + var(--space-5))}
+.hyp{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:var(--space-1);border-radius:50%;border:1.5px dashed var(--color-action-ink);color:var(--color-action-ink);font-size:var(--text-xs);font-weight:700;vertical-align:middle;cursor:help}
+body[data-hyp="off"] .hyp{display:none}
+.wordmark{font-size:var(--text-s);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-sage-text)}
+h1{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1.12;font-weight:500;margin-top:var(--space-3)}
+h2{font-family:var(--font-display);font-size:var(--text-xl);font-weight:500}
+.lede,.sub{color:var(--color-text-2);margin-top:var(--space-2)}
+.top-bar{display:flex;align-items:center;min-height:var(--tap);margin-left:calc(-1 * var(--space-2))}
+.back{display:inline-flex;align-items:center;gap:var(--space-1);min-height:var(--tap);padding:0 var(--space-2);color:var(--color-text);text-decoration:none;font-size:var(--text-s)}
+.icon{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ledger{margin-top:var(--space-5);border-top:2px solid var(--color-rule-strong)}
+.ledger-row{display:flex;align-items:center;min-height:var(--row);border-bottom:1px solid var(--color-rule);gap:var(--space-3)}
+.ledger-row label,.ledger-row .label{width:112px;flex:none;font-size:var(--text-s);color:var(--color-text-2)}
+.ledger-row input{flex:1;min-width:0;min-height:var(--tap);font-size:var(--text-l);font-weight:600;border:0;background:transparent;color:var(--color-text);padding:0}
+.nights{display:flex;gap:var(--space-1);flex:1;justify-content:flex-end}
+.nights button{width:44px;height:44px;font-size:var(--text-m);border:1px solid var(--color-rule);border-radius:var(--radius-s);background:var(--color-surface);color:var(--color-text);cursor:pointer}
+.nights button[aria-pressed="true"]{background:var(--color-text);color:var(--color-bg);border-color:var(--color-text)}
+.docked-action{position:absolute;left:0;right:0;bottom:var(--home-h);padding:var(--space-3) var(--space-5);background:var(--color-bg);box-shadow:var(--shadow-dock);z-index:2}
+body[data-nav="on"] .docked-action{bottom:calc(var(--home-h) + var(--nav-h))}
+.hero-action{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;font-size:var(--text-l);font-weight:600;background:var(--color-action);color:var(--color-action-text);border:0;border-radius:var(--radius-m);cursor:pointer;text-decoration:none;transition:background var(--motion)}
+.hero-action:hover{background:var(--color-action-hover)}
+.secondary-link{display:inline-block;margin-top:var(--space-3);min-height:var(--tap);line-height:var(--tap);color:var(--color-text);text-decoration:underline;text-underline-offset:3px}
+.secondary-button{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 var(--space-4);margin-top:var(--space-3);border:1px solid var(--color-rule-strong);border-radius:var(--radius-m);background:transparent;color:var(--color-text);text-decoration:none;cursor:pointer}
+.footer-note{margin-top:var(--space-6);font-size:var(--text-s);color:var(--color-text-2)}
+.footer-note a{color:var(--color-text);min-height:var(--tap);min-width:var(--tap);display:inline-block;line-height:var(--tap);padding:0 var(--space-2);margin:0 calc(-1 * var(--space-2))}
+.band{background:var(--color-surface-2);margin:var(--space-5) calc(-1 * var(--space-5)) 0;padding:var(--space-4) var(--space-5)}
+.rows{margin-top:var(--space-2);border-top:2px solid var(--color-rule-strong);list-style:none;padding:0}
+.row{display:flex;align-items:center;gap:var(--space-3);width:100%;min-height:var(--row);padding:var(--space-2) 0;border:0;border-bottom:1px solid var(--color-rule);background:transparent;color:var(--color-text);text-align:left;text-decoration:none;cursor:pointer}
+li.row{cursor:default}
+.row .day{width:36px;flex:none;font-size:var(--text-xs);font-weight:700;color:var(--color-text-2)}
+.row .meal{flex:1;min-width:0}
+.row .meal small{display:block;color:var(--color-text-2);font-size:var(--text-xs);margin-top:2px}
+.row .min{flex:none;font-size:var(--text-s);color:var(--color-text-2);text-align:right}
+.row.empty .meal,.row.out .meal{color:var(--color-text-2)}
+.row.empty .min{color:var(--color-action-ink);font-weight:600}
+.plate{flex:none}
+.leftover-tag{display:inline-block;font-size:var(--text-xs);color:var(--color-sage-text);background:var(--color-sage-bg);padding:2px var(--space-2);border-radius:var(--radius-s)}
+.search{display:block;width:100%;min-height:var(--tap);margin-top:var(--space-4);padding:0 var(--space-3);border:1px solid var(--color-rule);border-radius:var(--radius-m);background:var(--color-surface);color:var(--color-text);font-size:var(--text-m)}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.meal-head{display:flex;gap:var(--space-4);align-items:center;margin-top:var(--space-3)}
+.meal-head .meal-plate{flex:none}
+.meal-head h1{margin-top:0;font-size:var(--text-xl)}
+.leftovers{margin-top:var(--space-5);padding:var(--space-4);background:var(--color-sage-bg);color:var(--color-sage-text);border-radius:var(--radius-m)}
+.leftovers h2{font-size:var(--text-m);font-family:var(--font-body);font-weight:700;color:inherit}
+.leftovers a{color:inherit;font-weight:600}
+.lo-link{display:inline-flex;align-items:center;min-height:var(--tap);text-decoration:underline;text-underline-offset:3px}
+.lo-line{margin-top:var(--space-2)}
+.check{display:flex;align-items:center;gap:var(--space-2);min-height:var(--tap);margin-top:var(--space-2);cursor:pointer}
+.check input,.list-row input{width:24px;height:24px;flex:none;accent-color:var(--color-sage-text);margin:0}
+.ingredients{margin-top:var(--space-5)}
+.ingredients h2{font-size:var(--text-m);font-family:var(--font-body);font-weight:700;margin-top:var(--space-4)}
+.ingredients ul{list-style:none;padding:0;margin-top:var(--space-1)}
+.ingredients li{display:flex;align-items:center;gap:var(--space-2);min-height:40px;border-bottom:1px solid var(--color-rule)}
+.ingredients li .icon{color:var(--color-sage-text)}
+.ing-list li .icon{color:var(--color-action-ink)}
+.muted{color:var(--color-text-2)}
+.ing-cupboard{color:var(--color-text-2);font-size:var(--text-s);margin-top:var(--space-2)}
+.actions{display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-5)}
+.list-row{cursor:pointer}
+.list-row.done .meal{text-decoration:line-through;color:var(--color-text-2)}
+.shared{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-2);color:var(--color-text-2);font-size:var(--text-s)}
+.initials{display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--color-sage-bg);color:var(--color-sage-text);font-size:var(--text-xs);font-weight:700;align-items:center;justify-content:center}
+.skipped{margin-top:var(--space-5)}
+.skipped ul{list-style:none;padding:0;margin-top:var(--space-2)}
+.skipped li{display:flex;align-items:center;gap:var(--space-2);min-height:40px;color:var(--color-text-2);text-decoration:line-through;border-bottom:1px solid var(--color-rule)}
+.skipped li .icon{color:var(--color-sage-text)}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;margin-top:var(--space-5)}
+.section-title h2{font-size:var(--text-l)}
+.section-title a{color:var(--color-text);font-size:var(--text-s);min-height:var(--tap);line-height:var(--tap)}
+.steps{list-style:none;padding:0;margin-top:var(--space-4)}
+.steps li{display:flex;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--color-rule);font-size:var(--text-l)}
+.step-n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--color-surface-2);display:inline-flex;align-items:center;justify-content:center;font-size:var(--text-s);font-weight:700;color:var(--color-text-2)}
+.field{margin-top:var(--space-4)}
+.field label{display:block;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-2);margin-bottom:var(--space-1)}
+.field input{width:100%;min-height:var(--tap);padding:0 var(--space-3);border:1px solid var(--color-rule);border-radius:var(--radius-m);background:var(--color-surface);color:var(--color-text);font-size:var(--text-l)}
+.placeholder{display:flex;flex-direction:column}
+.placeholder-label{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--color-text-2);padding:var(--space-6) 0}
+.bottom-nav{display:none;position:absolute;left:0;right:0;bottom:var(--home-h);height:var(--nav-h);background:var(--color-bg);border-top:1px solid var(--color-rule);z-index:3}
+body[data-nav="on"] .bottom-nav{display:flex}
+.bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:var(--nav-h);color:var(--color-text-2);text-decoration:none;font-size:var(--text-xs)}
+.bottom-nav a[aria-current="page"]{color:var(--color-text);font-weight:700}
+.bottom-nav .icon{width:24px;height:24px}
+body[data-nav="on"] .screen{padding-bottom:calc(var(--nav-h) + var(--space-5))}
+body[data-nav="on"] .screen.has-dock{padding-bottom:calc(var(--nav-h) + var(--dock) + var(--space-5))}
+</style>
+</head>
+<body data-nav="off" data-hyp="on">
+<!-- mockup chrome: do not port -->
+<div class="chrome-top">
+  <button type="button" id="t-tour" aria-expanded="false" aria-controls="tour">Tour</button>
+  <button type="button" id="t-hyp" aria-pressed="true">Hypothesis badges</button>
+  <button type="button" id="t-theme" aria-pressed="false">Dark theme</button>
+  <button type="button" data-width="390" aria-pressed="true">390 wide</button>
+  <button type="button" data-width="360">360 wide</button>
+</div>
+<p class="concept-banner">Concept prototype. Sample data. Not a live service.</p>
+<div class="stage">
+<div class="frame">
+<div class="status-bar"><span>18:42</span><span>Sun 1 Nov</span></div>
+<!-- end mockup chrome -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="plate" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="var(--color-plate-rim)"/><circle cx="20" cy="20" r="14" fill="var(--food)"/><path d="M22 12c4-4 10-3 11 1-4 2-8 3-11-1z" fill="var(--green)"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></symbol>
+  <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3 10h18l-2 10H5zM8 10l4-6 4 6"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-week" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.5M4 12h.5M4 18h.5"/></symbol>
+  <symbol id="i-fridge" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 10h14M9 6v2M9 13v3"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+</svg>
+<div id="screen">
+<main id="app">
+
+  <section class="screen has-dock" data-route="/start" data-tier="core" data-title="Pair up">
+    <div class="wordmark">Plateful</div>
+    <h1>The week's dinners, decided in five minutes.</h1>
+    <p class="lede">Two names, how many nights you cook, and we lay out a first week you can change in a tap.</p>
+    <form class="ledger" id="pair-form">
+      <div class="ledger-row"><label for="you">You</label><input id="you" value="Mira" autocomplete="off"></div>
+      <div class="ledger-row"><label for="partner">Your partner <span class="hyp" data-hyp-id="H-01" title="Pairs will set up on one phone together rather than each installing first (hypothesis)">?</span></label><input id="partner" value="Tom" autocomplete="off"></div>
+      <div class="ledger-row"><span class="label" id="nights-label">Nights a week</span>
+        <div class="nights" role="group" aria-labelledby="nights-label"><button type="button">4</button><button type="button" aria-pressed="true">5</button><button type="button">6</button><button type="button">7</button></div>
+      </div>
+      <div class="docked-action"><button type="submit" class="hero-action">Plan our first week</button></div>
+    </form>
+    <a class="secondary-link" href="#/invite"><span class="partner-name">Tom</span> has his own phone? Send an invite</a>
+    <section class="band">
+      <h2>How a week looks</h2>
+      <p class="sub">Monday's chicken is Tuesday's tacos. Leftovers carry into the next meal, and the list skips what is already in the fridge.</p>
+    </section>
+    <p class="footer-note">Free while we learn. <a href="#/plus">Plus comes later.</a> · <a href="#/help">Help</a></p>
+  </section>
+
+  <section class="screen has-dock" data-route="/week" data-tier="core" data-title="This week">
+    <div class="wordmark">Plateful</div>
+    <h1>This week</h1>
+    <p class="sub">Mon 2 to Sun 8 Nov · <span class="week-status">4 planned, Wednesday and Saturday to fill</span></p>
+    <div class="rows week-rows">
+      <a class="row week-row" href="#/meal/roast-chicken"><span class="day">Mon</span><span class="meal">Roast chicken, potatoes and kale<small><span class="leftover-tag">Half a chicken for Tuesday</span></small></span><span class="min">1 h 10</span></a>
+      <a class="row week-row" href="#/meal/chicken-tacos"><span class="day">Tue</span><span class="meal">Chicken tacos with pickled onion<small><span class="leftover-tag">Monday's chicken</span></small></span><span class="min">25 min</span></a>
+      <a class="row week-row empty" href="#/pick/wed"><span class="day">Wed</span><span class="meal">Pick a meal</span><span class="min">Choose</span></a>
+      <a class="row week-row" href="#/meal/mushroom-risotto"><span class="day">Thu</span><span class="meal">Mushroom risotto</span><span class="min">40 min</span></a>
+      <a class="row week-row out" href="#/pick/fri"><span class="day">Fri</span><span class="meal">Out</span><span class="min">Change</span></a>
+      <a class="row week-row empty" href="#/pick/sat"><span class="day">Sat</span><span class="meal">Pick a meal</span><span class="min">Choose</span></a>
+      <a class="row week-row" href="#/meal/lentil-soup"><span class="day">Sun</span><span class="meal">Red lentil soup with flatbread<small><span class="leftover-tag">Two bowls for Monday lunch</span></small></span><span class="min">35 min</span></a>
+    </div>
+    <p class="footer-note">Tap a night to see the meal, its leftovers and what it needs. <span class="hyp" data-hyp-id="H-02" title="Five minutes is enough when suggestions lead with leftovers and fridge contents (hypothesis)">?</span></p>
+    <div class="docked-action"><a class="hero-action" id="week-action" href="#/pick/wed">Fill Wednesday</a></div>
+  </section>
+
+  <section class="screen" data-route="/pick/:night" data-tier="core" data-title="Pick a meal">
+    <div class="top-bar"><a class="back" href="#/week"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>This week</a></div>
+    <h1 class="pick-title">Wednesday</h1>
+    <p class="sub pick-date">4 Nov. Suggestions lead with what is in the fridge.</p>
+    <label class="visually-hidden" for="pick-search">Search meals</label>
+    <input class="search" id="pick-search" type="search" placeholder="Search meals" autocomplete="off">
+    <div class="rows pick-rows"></div>
+    <button type="button" class="secondary-button" id="pick-out" data-night="wed">Mark Wednesday as out</button>
+  </section>
+
+  <section class="screen" data-route="/meal/:id" data-tier="core" data-title="Meal">
+    <div class="top-bar"><a class="back" href="#/week"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>This week</a></div>
+    <div class="meal-head"><div class="meal-plate"></div><div><h1 class="meal-title">Roast chicken, potatoes and kale</h1><p class="sub meal-meta">1 h 10 · serves two · Monday</p></div></div>
+    <section class="leftovers">
+      <h2>Leftovers <span class="hyp" data-hyp-id="H-04" title="Carrying leftovers into a named next meal beats a generic leftovers night (hypothesis)">?</span></h2>
+      <div class="lo-body"></div>
+    </section>
+    <section class="ingredients">
+      <h2>In the fridge</h2>
+      <ul class="ing-fridge"></ul>
+      <p class="ing-cupboard"></p>
+      <h2 class="ing-list-title">On the list</h2>
+      <ul class="ing-list"></ul>
+    </section>
+    <div class="actions">
+      <a class="hero-action start-cooking" href="#/cook/roast-chicken">Start cooking</a>
+      <a class="secondary-button" id="meal-swap" href="#/pick/mon">Swap Monday's meal</a>
+    </div>
+  </section>
+
+  <section class="screen" data-route="/list" data-tier="core" data-title="Shopping list">
+    <div class="wordmark">Plateful</div>
+    <h1>Shopping list</h1>
+    <p class="sub list-status">12 to buy, 6 skipped</p>
+    <p class="shared"><span class="initials" aria-hidden="true">MT</span><span>Shared with <span class="partner-name">Tom</span>. Ticks show on both phones.</span></p>
+    <div class="section-title"><h2>Shop 1 · Monday</h2></div>
+    <div class="rows shop-1"></div>
+    <div class="section-title"><h2>Shop 2 · Thursday</h2></div>
+    <div class="rows shop-2"></div>
+    <section class="skipped">
+      <h2 class="skipped-count">Skipped, already in the fridge (6) <span class="hyp" data-hyp-id="H-03" title="Pairs keep the fridge current enough to trust the skipped section (hypothesis)">?</span></h2>
+      <ul class="skipped-rows"></ul>
+    </section>
+  </section>
+
+  <section class="screen" data-route="/fridge" data-tier="core" data-title="Fridge">
+    <div class="wordmark">Plateful</div>
+    <h1>Fridge</h1>
+    <p class="sub">Soonest to go off first.</p>
+    <div class="section-title"><h2>In the fridge</h2><a href="#/fridge/add">Add something</a></div>
+    <ul class="rows fridge-rows"></ul>
+    <section class="cook-now">
+      <div class="section-title"><h2>Cook now <span class="hyp" data-hyp-id="H-05" title="Cook now from fridge contents gets used on unplanned nights (hypothesis)">?</span></h2></div>
+      <p class="sub">What is makeable tonight from what is in.</p>
+      <div class="rows cook-rows"></div>
+    </section>
+  </section>
+
+  <section class="screen" data-route="/cook/:id" data-tier="supporting" data-title="Cook">
+    <div class="top-bar"><a class="back cook-back" href="#/meal/roast-chicken"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>Back to the meal</a></div>
+    <h1 class="cook-title">Roast chicken, potatoes and kale</h1>
+    <p class="sub cook-meta">1 h 10 · serves two</p>
+    <ol class="steps"></ol>
+    <div class="actions"><a class="secondary-button cook-back" href="#/meal/roast-chicken">Back to the meal</a></div>
+  </section>
+
+  <section class="screen" data-route="/fridge/add" data-tier="supporting" data-title="Add to the fridge">
+    <div class="top-bar"><a class="back" href="#/fridge"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>Fridge</a></div>
+    <h1>Add to the fridge</h1>
+    <p class="sub">What came home from the shop, or what is left after cooking.</p>
+    <form onsubmit="return false">
+      <div class="field"><label for="add-name">What is it</label><input id="add-name" value="Half a jar of pesto" autocomplete="off"></div>
+      <div class="field"><span class="label" id="add-days-label">Days until it goes off</span>
+        <div class="nights" role="group" aria-labelledby="add-days-label" style="justify-content:flex-start"><button type="button">2</button><button type="button" aria-pressed="true">5</button><button type="button">10</button><button type="button">30</button></div>
+      </div>
+      <div class="actions"><button type="button" class="hero-action" data-go="/fridge">Add it</button></div>
+    </form>
+  </section>
+
+  <section class="screen placeholder" data-route="/invite" data-tier="placeholder" data-title="Invite partner">
+    <div class="top-bar"><a class="back" href="#/start"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>Back</a></div>
+    <h1>Invite partner</h1>
+    <p class="placeholder-label">Invite partner. Out of prototype scope.</p>
+  </section>
+
+  <section class="screen placeholder" data-route="/settings" data-tier="placeholder" data-title="Settings">
+    <div class="wordmark">Plateful</div>
+    <h1>Settings</h1>
+    <p class="placeholder-label">Settings. Out of prototype scope.</p>
+    <a class="secondary-button" href="#/week">Back to this week</a>
+  </section>
+
+  <section class="screen placeholder" data-route="/plus" data-tier="placeholder" data-title="Plateful Plus">
+    <div class="top-bar"><a class="back" href="#/start"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>Back</a></div>
+    <h1>Plateful Plus</h1>
+    <p class="placeholder-label">Plateful Plus. Out of prototype scope.</p>
+  </section>
+
+  <section class="screen placeholder" data-route="/help" data-tier="placeholder" data-title="Help">
+    <div class="top-bar"><a class="back" href="#/start"><svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>Back</a></div>
+    <h1>Help</h1>
+    <p class="placeholder-label">Help. Out of prototype scope.</p>
+  </section>
+
+</main>
+</div>
+<nav class="bottom-nav" aria-label="Main">
+  <a href="#/week"><svg class="icon" aria-hidden="true"><use href="#i-week"/></svg>Week</a>
+  <a href="#/list"><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>List</a>
+  <a href="#/fridge"><svg class="icon" aria-hidden="true"><use href="#i-fridge"/></svg>Fridge</a>
+  <a href="#/settings"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg>Settings</a>
+</nav>
+<!-- mockup chrome: do not port -->
+<div class="home-indicator"></div>
+</div>
+<aside class="tour-panel" id="tour" hidden>
+  <h2>Tour <button type="button" id="tour-close" aria-label="Close the tour">&times;</button></h2>
+  <div id="tour-list"></div>
+  <div class="tour-step" id="tour-step" hidden>
+    <span class="flow" id="tour-flow"></span><span class="count" id="tour-count"></span>
+    <p id="tour-hint"></p>
+    <div class="buttons"><button type="button" id="tour-back">Back</button><button type="button" id="tour-next">Next</button></div>
+  </div>
+</aside>
+</div>
+<!-- end mockup chrome -->
+<script src="flows.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

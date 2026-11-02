@@ -1,0 +1,138 @@
+<!doctype html>
+<!--
+Concept: 03 Recipe card
+Idea: the index-card recipe box. A sage header block, then white cards in a grid: you, your partner, nights, and one large action tile.
+Reference: handwritten recipe cards in a kitchen tin: slab headings, short fields, cards you can pick up one at a time.
+Why it suits Mira and Tom: the pair-up is three small decisions; three cards make that visible, and the action tile is the biggest thing on screen.
+Font pairing: display in a slab serif stack (Rockwell, Roboto Slab, Georgia); body in a humanist sans stack (Avenir Next, Segoe UI, system-ui); card labels letter-spaced small caps.
+Palette light: header sage #DCE6D6 with text #2A2420, page #FFFFFF, card #FFFFFF with rule #E3D9CC, text-2 #6B625A, action terracotta #B5563A on #FFFFFF, sage text #3E5A3A on sage bg #E6EEE2.
+Palette dark: header #2F3A2C with text #F3EDE6, page #1E1A17, card #27221E, rule #3C3530, text-2 #B9AFA5, action #B5563A on #FFFFFF, sage text #B8CFB0 on #2F3A2C.
+Imagery: medium art-directed plates (64 px) as circular cutouts overlapping the top-right corner of the week preview cards.
+Components: .status-bar, .header-block, .wordmark, .headline, .lede, .card-grid, .card, .field, .nights, .action-tile, .hero-action, .secondary-link, .week-preview, .preview-card, .plate, .leftover-tag, .footer-note, .home-indicator.
+Biggest risk: a card grid at 360 wide leaves narrow cards and the week preview becomes a stack of same-shaped cards; the grid has to break to one column without looking like a list that wanted to be a grid.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plateful direction 03: Recipe card</title>
+<style>
+:root{
+  --color-bg:#FFFFFF; --color-surface:#FFFFFF; --color-surface-2:#DCE6D6;
+  --color-text:#2A2420; --color-text-2:#6B625A; --color-rule:#E3D9CC;
+  --color-action:#B5563A; --color-action-hover:#9E4A31; --color-action-text:#FFFFFF;
+  --color-sage-text:#3E5A3A; --color-sage-bg:#E6EEE2; --color-sage:#8FA585;
+  --color-plate-rim:#F6EFE6; --color-focus:#2A2420;
+  --font-display:Rockwell,"Roboto Slab",Arvo,Georgia,serif;
+  --font-body:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+  --text-xs:13px; --text-s:15px; --text-m:17px; --text-l:20px; --text-xl:26px; --text-2xl:32px;
+  --leading:1.4; --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px;
+  --radius-s:6px; --radius-m:14px; --radius-l:22px; --tap:48px; --shadow:0 2px 6px rgba(42,36,32,.10);
+  --motion:160ms ease-out; --frame-w:390px; --frame-h:844px; --fold:844px;
+  --chrome-bg:#D9D2C8; --chrome-text:#2A2420;
+}
+[data-theme="dark"]{
+  --color-bg:#1E1A17; --color-surface:#27221E; --color-surface-2:#2F3A2C;
+  --color-text:#F3EDE6; --color-text-2:#B9AFA5; --color-rule:#3C3530;
+  --color-sage-text:#B8CFB0; --color-sage-bg:#2F3A2C; --color-plate-rim:#3A332E; --color-focus:#F3EDE6;
+  --shadow:0 2px 6px rgba(0,0,0,.4); --chrome-bg:#141210; --chrome-text:#F3EDE6;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:var(--font-body);font-size:var(--text-m);line-height:var(--leading);color:var(--color-text);background:var(--chrome-bg)}
+/* mockup chrome: do not port */
+.toolbar{display:flex;gap:var(--space-2);padding:var(--space-3);justify-content:center;color:var(--chrome-text);font-size:var(--text-xs)}
+.toolbar button{font:inherit;min-height:36px;padding:0 var(--space-3);border:1px solid currentColor;background:transparent;color:inherit;border-radius:var(--radius-s);cursor:pointer}
+.stage{display:flex;justify-content:center;padding:0 var(--space-3) var(--space-6)}
+.frame{position:relative;width:var(--frame-w);background:var(--color-bg);border-radius:40px;box-shadow:0 8px 40px rgba(0,0,0,.25);overflow:hidden;border:6px solid #111}
+.fold{position:absolute;left:0;right:0;top:var(--fold);border-top:2px dashed var(--color-action);pointer-events:none;z-index:3}
+.fold span{position:absolute;right:var(--space-3);top:-20px;font-size:var(--text-xs);color:var(--color-action);background:var(--color-surface);padding:0 var(--space-1)}
+.status-bar{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 var(--space-5);font-size:var(--text-xs);font-weight:600;background:var(--color-surface-2)}
+.home-indicator{height:34px;display:flex;align-items:center;justify-content:center}
+.home-indicator::after{content:"";width:134px;height:5px;border-radius:3px;background:var(--color-text);opacity:.6}
+/* end mockup chrome */
+.header-block{background:var(--color-surface-2);padding:var(--space-3) var(--space-5) var(--space-6);border-radius:0 0 var(--radius-l) var(--radius-l)}
+.wordmark{font-family:var(--font-display);font-size:var(--text-l);color:var(--color-sage-text)}
+.headline{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1.15;margin-top:var(--space-4);font-weight:700}
+.lede{color:var(--color-text-2);margin-top:var(--space-3)}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);padding:var(--space-4) var(--space-4) 0}
+.card{background:var(--color-surface);border:1px solid var(--color-rule);border-radius:var(--radius-m);padding:var(--space-3);box-shadow:var(--shadow)}
+.card label,.card .label{display:block;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--color-text-2)}
+.card input{width:100%;min-height:var(--tap);font:var(--text-xl) var(--font-display);border:0;border-bottom:1px solid var(--color-rule);background:transparent;color:var(--color-text);padding:0}
+.card.wide{grid-column:1 / -1}
+.nights{display:flex;gap:var(--space-2);margin-top:var(--space-2)}
+.nights button{flex:1;min-height:44px;font:inherit;font-size:var(--text-m);border:1px solid var(--color-rule);border-radius:var(--radius-s);background:var(--color-surface);color:var(--color-text);cursor:pointer}
+.nights button[aria-pressed="true"]{background:var(--color-sage-bg);color:var(--color-sage-text);border-color:var(--color-sage);font-weight:700}
+.action-tile{grid-column:1 / -1}
+.hero-action{width:100%;min-height:72px;font:var(--text-l) var(--font-display);font-weight:700;background:var(--color-action);color:var(--color-action-text);border:0;border-radius:var(--radius-m);cursor:pointer;box-shadow:var(--shadow);transition:background var(--motion);text-align:left;padding:0 var(--space-4);display:flex;justify-content:space-between;align-items:center}
+.hero-action:hover{background:var(--color-action-hover)}
+.secondary-link{display:block;text-align:center;margin:var(--space-3) var(--space-4) 0;min-height:var(--tap);line-height:var(--tap);color:var(--color-text);text-decoration:underline;text-underline-offset:3px}
+.week-preview{padding:var(--space-5) var(--space-4) 0}
+.week-preview h2{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700}
+.week-preview p{color:var(--color-text-2);margin-top:var(--space-1);margin-bottom:var(--space-3)}
+.preview-card{position:relative;background:var(--color-surface);border:1px solid var(--color-rule);border-radius:var(--radius-m);padding:var(--space-3) 72px var(--space-3) var(--space-3);margin-top:var(--space-3);min-height:64px;box-shadow:var(--shadow)}
+.preview-card .day{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.1em;color:var(--color-text-2)}
+.preview-card .meal{font-family:var(--font-display);font-size:var(--text-m);display:block;margin-top:2px}
+.preview-card .min{font-size:var(--text-xs);color:var(--color-text-2)}
+.plate{position:absolute;right:-8px;top:-10px;width:64px;height:64px}
+.preview-card.empty{border-style:dashed}
+.preview-card.empty .meal{color:var(--color-text-2);font-family:var(--font-body)}
+.leftover-tag{display:inline-block;margin-top:var(--space-1);font-size:var(--text-xs);color:var(--color-sage-text);background:var(--color-sage-bg);padding:2px var(--space-2);border-radius:var(--radius-s)}
+.footer-note{margin:var(--space-6) var(--space-4) var(--space-5);font-size:var(--text-s);color:var(--color-text-2);text-align:center}
+.footer-note a{color:var(--color-text);min-height:var(--tap);display:inline-block;line-height:var(--tap)}
+:focus-visible{outline:3px solid var(--color-focus);outline-offset:2px}
+</style>
+</head>
+<body>
+<!-- mockup chrome: do not port -->
+<div class="toolbar">
+  <button type="button" data-set-theme>Theme</button>
+  <button type="button" data-set-width="390">390</button>
+  <button type="button" data-set-width="360">360</button>
+</div>
+<div class="stage"><div class="frame">
+<div class="status-bar"><span>18:42</span><span>Sun 1 Nov</span></div>
+<div class="fold"><span>fold at 844</span></div>
+<!-- end mockup chrome -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="plate" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="var(--color-plate-rim)"/><circle cx="20" cy="20" r="14" fill="var(--food)"/><path d="M22 12c4-4 10-3 11 1-4 2-8 3-11-1z" fill="var(--green)"/></symbol></svg>
+<div class="header-block">
+  <div class="wordmark">Plateful</div>
+  <h1 class="headline">Your week's dinners, decided together in five minutes.</h1>
+  <p class="lede">Three quick cards, then a first week you can change in a tap.</p>
+</div>
+<form class="card-grid" onsubmit="return false">
+  <div class="card"><label for="you">You</label><input id="you" value="Mira"></div>
+  <div class="card"><label for="partner">Your partner</label><input id="partner" value="Tom"></div>
+  <div class="card wide"><span class="label" id="nights-label">Nights a week you cook</span>
+    <div class="nights" role="group" aria-labelledby="nights-label"><button type="button">4</button><button type="button" aria-pressed="true">5</button><button type="button">6</button><button type="button">7</button></div>
+  </div>
+  <div class="action-tile"><button type="submit" class="hero-action"><span>Plan our first week</span><span aria-hidden="true">&rarr;</span></button></div>
+</form>
+<a class="secondary-link" href="#">Tom has his own phone? Send an invite</a>
+<section class="week-preview">
+  <h2>How a week looks</h2>
+  <p>Monday's chicken is Tuesday's tacos.</p>
+  <div class="preview-card"><span class="day">Monday</span><span class="meal">Roast chicken, potatoes and kale</span><span class="min">1 h 10</span><svg class="plate" style="--food:#C9742E;--green:#6E8A5E" data-art="roast chicken, overhead, warm light"><use href="#plate"/></svg></div>
+  <div class="preview-card"><span class="day">Tuesday</span><span class="meal">Chicken tacos with pickled onion</span><span class="min">25 min</span><br><span class="leftover-tag">Monday's chicken</span><svg class="plate" style="--food:#D9A066;--green:#7A9A6D" data-art="chicken tacos, overhead, warm light"><use href="#plate"/></svg></div>
+  <div class="preview-card empty"><span class="day">Wednesday</span><span class="meal">Pick a meal</span></div>
+  <div class="preview-card"><span class="day">Thursday</span><span class="meal">Mushroom risotto</span><span class="min">40 min</span><svg class="plate" style="--food:#D8C8A8;--green:#8A7A5E" data-art="mushroom risotto, overhead, warm light"><use href="#plate"/></svg></div>
+  <div class="preview-card"><span class="day">Friday</span><span class="meal">Out</span></div>
+  <div class="preview-card empty"><span class="day">Saturday</span><span class="meal">Pick a meal</span></div>
+  <div class="preview-card"><span class="day">Sunday</span><span class="meal">Red lentil soup with flatbread</span><span class="min">35 min</span><br><span class="leftover-tag">Two bowls for Monday lunch</span><svg class="plate" style="--food:#D9772E;--green:#7A9A6D" data-art="red lentil soup, overhead, warm light"><use href="#plate"/></svg></div>
+</section>
+<p class="footer-note">Free while we learn. Plus comes later. <a href="#">Help</a></p>
+<!-- mockup chrome: do not port -->
+<div class="home-indicator"></div>
+</div></div>
+<script>
+(function(){
+  var root=document.documentElement;
+  function setTheme(t){root.dataset.theme=t}
+  function setWidth(w){root.style.setProperty('--frame-w',w+'px')}
+  document.querySelector('[data-set-theme]').onclick=function(){setTheme(root.dataset.theme==='dark'?'light':'dark')};
+  document.querySelectorAll('[data-set-width]').forEach(function(b){b.onclick=function(){setWidth(b.dataset.setWidth)}});
+  window.addEventListener('message',function(e){var d=e.data||{};if(d.theme)setTheme(d.theme);if(d.width)setWidth(d.width)});
+})();
+</script>
+<!-- end mockup chrome -->
+</body>
+</html>

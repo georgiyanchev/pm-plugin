@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plateful direction round</title>
+<style>
+:root{--bg:#EFEAE3;--text:#2A2420;--text-2:#6B625A;--card:#FFFFFF;--rule:#D9D2C8;--accent:#B5563A;--sage:#3E5A3A}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.45 "Avenir Next","Segoe UI",system-ui,sans-serif;color:var(--text);background:var(--bg);padding:24px}
+h1{font-size:24px;font-weight:600}
+.sub{color:var(--text-2);margin-top:4px}
+.toolbar{display:flex;gap:8px;margin:16px 0 24px;flex-wrap:wrap}
+.toolbar button{font:inherit;min-height:40px;padding:0 14px;border:1px solid var(--text);background:transparent;border-radius:6px;cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:var(--text);color:var(--card)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;align-items:start}
+.dir{background:var(--card);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.dir iframe{width:100%;height:960px;border:0;display:block;background:#D9D2C8}
+.dir .notes{padding:16px 20px 20px;border-top:1px solid var(--rule)}
+.dir h2{font-size:18px;font-weight:600}
+.dir .idea{color:var(--text-2);margin:4px 0 12px}
+.dir h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-2);margin-top:12px}
+.dir ul{padding-left:18px;margin-top:4px}
+.dir li{margin:2px 0}
+.rec{margin-top:32px;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:20px 24px}
+table{border-collapse:collapse;width:100%;margin-top:12px;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-2)}
+.pick{color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+<h1>Plateful: entry screen in three directions</h1>
+<p class="sub">Pair up (SCR-01), the first core screen. Same copy, same sample data, same modules in each. Toggles apply to all three.</p>
+<div class="toolbar">
+  <button type="button" data-theme="light" aria-pressed="true">Light</button>
+  <button type="button" data-theme="dark">Dark</button>
+  <button type="button" data-width="390" aria-pressed="true">390 wide</button>
+  <button type="button" data-width="360">360 wide</button>
+</div>
+<div class="gallery">
+  <div class="dir">
+    <iframe src="01-sunday-paper.html" title="Direction 01 Sunday paper"></iframe>
+    <div class="notes">
+      <h2>01 Sunday paper</h2>
+      <p class="idea">A large plate, a serif headline, a short column of fields. Reference: the weekend food supplement.</p>
+      <h3>Strengths</h3><ul><li>Warmest of the three at a glance; the serif and the plate say "dinner", not "setup".</li><li>Single column reads top to bottom with no decisions about where to look.</li></ul>
+      <h3>Trade-offs</h3><ul><li>The hero plate pushes the action below the fold on a 360 phone.</li><li>A large image per screen sets an expectation the other screens (lists) cannot keep.</li><li>Cream page background, chosen deliberately here, is the one the round's rules warn against as a default.</li></ul>
+      <h3>Implementation notes</h3><ul><li>Hero image as a plate component with a gradient into the page; no scrim needed because text never sits on it.</li><li>Form fields are standard inputs with a visible label above.</li></ul>
+    </div>
+  </div>
+  <div class="dir">
+    <iframe src="02-market-ledger.html" title="Direction 02 Market ledger"></iframe>
+    <div class="notes">
+      <h2>02 Market ledger <span class="pick">(recommended)</span></h2>
+      <p class="idea">Ruled rows, tabular figures, one action docked at the thumb. Reference: the greengrocer's order book.</p>
+      <h3>Strengths</h3><ul><li>Every core screen is a list; this model carries all six without a second layout.</li><li>The action is in the thumb zone on first load, at 390 and 360.</li><li>Large type and one accent per job: terracotta acts, sage marks what is already in.</li></ul>
+      <h3>Trade-offs</h3><ul><li>A single sans can read as a form; needs the headline size and the linen band to carry warmth.</li><li>Small plates in the margin give less of the food than the other two.</li></ul>
+      <h3>Implementation notes</h3><ul><li>Docked action bar is a fixed bottom element above the home indicator; the content gets bottom padding to clear it.</li><li>Row component reused for nights, list items and fridge items; plate as an SVG symbol with two colour variables.</li></ul>
+    </div>
+  </div>
+  <div class="dir">
+    <iframe src="03-recipe-card.html" title="Direction 03 Recipe card"></iframe>
+    <div class="notes">
+      <h2>03 Recipe card</h2>
+      <p class="idea">A sage header, white cards in a grid, the action as the largest tile. Reference: the index-card recipe tin.</p>
+      <h3>Strengths</h3><ul><li>The three decisions of pair-up are three visible cards; the action tile is unmissable.</li><li>Slab headings give it a distinct personality.</li></ul>
+      <h3>Trade-offs</h3><ul><li>At 360 the two-column cards get narrow; the week preview becomes a stack of same-shaped cards, the structure the round's rules warn against.</li><li>Sage as a surface here competes with sage as a status colour on the later screens.</li></ul>
+      <h3>Implementation notes</h3><ul><li>Card grid breaks to one column under 360; plates as absolutely positioned cutouts need overflow left visible.</li></ul>
+    </div>
+  </div>
+</div>
+<div class="rec">
+  <h2>Comparison and recommendation</h2>
+  <table>
+    <tr><th>Direction</th><th>Core idea</th><th>Strongest point</th><th>Biggest risk</th><th>Fit for Mira and Tom</th></tr>
+    <tr><td>01 Sunday paper</td><td>Big plate, serif head, one column</td><td>Warmth</td><td>Action below the fold at 360; image-led model does not fit list screens</td><td>3 / 5</td></tr>
+    <tr><td>02 Market ledger</td><td>Ruled rows, docked action</td><td>One model for all six core screens; thumb-zone action</td><td>Reads as a form if the headline and linen band are weak</td><td>5 / 5</td></tr>
+    <tr><td>03 Recipe card</td><td>Sage header, card grid, action tile</td><td>Three decisions as three cards</td><td>Card grid breaks down at 360 and on list screens</td><td>3 / 5</td></tr>
+  </table>
+  <p style="margin-top:14px"><strong>Pick: 02 Market ledger</strong>, with one element merged from 01: the serif display stack for headlines, so the warmth the owner asked for survives the ledger's restraint. Nothing from 03 is merged; its sage surface would give sage a second job. Recorded in <code>decisions.md</code> as <code>[auto]</code>; the chosen file's tokens become <code>tokens.css</code>.</p>
+</div>
+<script>
+(function(){
+  var frames=document.querySelectorAll('iframe');
+  function send(msg){frames.forEach(function(f){f.contentWindow.postMessage(msg,'*')})}
+  document.querySelectorAll('[data-theme]').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('[data-theme]').forEach(function(x){x.setAttribute('aria-pressed',x===b)});send({theme:b.dataset.theme})}});
+  document.querySelectorAll('[data-width]').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('[data-width]').forEach(function(x){x.setAttribute('aria-pressed',x===b)});send({width:b.dataset.width})}});
+})();
+</script>
+</body>
+</html>

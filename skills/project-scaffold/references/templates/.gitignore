@@ -1,0 +1,28 @@
+# secrets stay out of the repository
+.env
+.env*.local
+*.pem
+*.key
+*.p8
+*.p12
+*.jks
+*.mobileprovision
+
+# dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+*.log
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/

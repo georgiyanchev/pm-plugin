@@ -1,0 +1,11 @@
+{
+  "name": "pm-plugin",
+  "owner": { "name": "Georgi Yanchev" },
+  "plugins": [
+    {
+      "name": "pm",
+      "source": "./",
+      "description": "Product pipeline for Claude Code and Codex, free edition."
+    }
+  ]
+}

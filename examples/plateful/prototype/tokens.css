@@ -1,0 +1,24 @@
+/* Plateful prototype tokens. Direction 02 Market ledger, with the serif display stack from 01 Sunday paper merged in.
+   Light-first; [data-theme="dark"] derives the other theme. Every component rule reads these; no literals elsewhere. */
+:root{
+  --color-bg:#FFFFFF; --color-surface:#FFFFFF; --color-surface-2:#F6EFE6;
+  --color-text:#2A2420; --color-text-2:#6B625A; --color-rule:#CBD6C4; --color-rule-strong:#2A2420;
+  --color-action:#B5563A; --color-action-hover:#9E4A31; --color-action-text:#FFFFFF; --color-action-tint:#F6E4DD; --color-action-ink:#B5563A;
+  --color-sage-text:#3E5A3A; --color-sage-bg:#E6EEE2; --color-sage:#8FA585;
+  --color-plate-rim:#F6EFE6; --color-focus:#2A2420; --color-scrim:rgba(42,36,32,.55);
+  --font-display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --font-body:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+  --text-xs:13px; --text-s:15px; --text-m:17px; --text-l:20px; --text-xl:26px; --text-2xl:34px;
+  --leading:1.4; --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px;
+  --radius-s:6px; --radius-m:10px; --radius-l:16px; --tap:48px; --row:56px; --dock:80px;
+  --shadow-dock:0 -1px 0 var(--color-rule); --shadow-panel:0 8px 40px rgba(0,0,0,.25);
+  --motion:160ms ease-out; --frame-w:390px; --frame-h:844px; --status-h:44px; --home-h:34px; --nav-h:64px;
+  --chrome-bg:#D9D2C8; --chrome-text:#2A2420; --chrome-surface:#EFEAE3; --chrome-rule:#C4BBB0; --chrome-frame:#111111;
+}
+[data-theme="dark"]{
+  --color-bg:#1E1A17; --color-surface:#27221E; --color-surface-2:#2F2925;
+  --color-text:#F3EDE6; --color-text-2:#B9AFA5; --color-rule:#3C4A38; --color-rule-strong:#F3EDE6;
+  --color-action-tint:#3D2A22; --color-action-ink:#E09A7E; --color-sage-text:#B8CFB0; --color-sage-bg:#2F3A2C; --color-plate-rim:#3A332E; --color-focus:#F3EDE6;
+  --color-scrim:rgba(0,0,0,.6);
+  --chrome-bg:#141210; --chrome-text:#F3EDE6; --chrome-surface:#1E1A17; --chrome-rule:#3C3530; --chrome-frame:#000000;
+}
