@@ -174,7 +174,7 @@ Size S skips `specced` and `designed`.
 
 ## Competitor knowledge base
 
-`docs/competitors/` holds the product's competitor research in whatever layout the owner uses (by market, by topic, dated files). The audit asks the user for one or more research folders first; `Competitor research: <path>[, <path>]` under `## Related docs` in `docs/product.md` answers that question without asking. When none exists the audit researches from scratch and creates the default folder. The capability-gap-audit skill reads the folder before any web search and appends new facts after review. Append only: dated `## Update` sections, new dated files, a `README.md` index; prior prose is never edited. Rules in competitor-knowledge.md (full edition).
+`docs/competitors/` holds the product's competitor research in whatever layout the owner uses (by market, by topic, dated files). The audit asks the user for one or more research folders first; `Competitor research: <path>[, <path>]` under `## Related docs` in `docs/product.md` answers that question without asking. When none exists the audit researches from scratch and creates the default folder. The capability-gap-audit skill reads the folder before any web search and appends new facts after review. Append only: dated `## Update` sections, new dated files, a `README.md` index; prior prose is never edited. Rules in knowledge-base.md (full edition).
 
 ## Target audience
 

@@ -143,9 +143,20 @@ Every document the pipeline writes, in stage order: its main sections, where it 
 - **Output:** `<repo>/docs/product/audits/<date>-capability-gaps.md`, `<repo>/docs/product/capabilities.md` (feature scope: `<slug>/audits/`)
 - **Template:** audit-template.md (full edition)
 - **Checklist:** audit-review.md (full edition)
-- **Rules:** taxonomy.md (full edition), gap-classification.md (full edition), competitor-knowledge.md (full edition), demand-evidence.md (full edition)
+- **Rules:** taxonomy.md (full edition), gap-classification.md (full edition), knowledge-base.md (full edition), demand-evidence.md (full edition)
 - **Written by:** capability-gap-audit
 - **Read by:** feature-discovery
+
+### Competitor research (brief and one-pager)
+
+- **Sections:** brief: header · Bottom line · 1 What the subject is today · 2 The competitive set (landscape map; deep: one card per competitor) · 3 Economics · 4 Feature comparison · 5 Positioning · 6 Strengths and weaknesses · 7 Market moves · 8 Customer voice and demand · 9 Opportunities · 10 Threats · 11 Implications and measures · 12 Using this in the conversation or Open questions for the team · Caveats and gaps · Sources. One-pager: The situation · Who it competes with · Where it stands · The three things that matter · Implications · Open questions. Sets per preset in the brief template
+- **Output:** `<repo>/docs/competitors/research/<date>-<subject-slug>/brief.md` (and `brief.html`), `one-pager.md` (and `one-pager.html`), `record.json`, `evidence.md`, `tables.md`, `analysis.md`
+- **Template:** brief-template.md (full edition), one-pager-template.md (full edition)
+- **Checklist:** research-review.md (full edition)
+- **Rules:** rules.md (full edition), knowledge-base.md (full edition), analysis.md (full edition)
+- **Written by:** competitor-research
+- **Read by:** capability-gap-audit (the record, through `reuse`), competitor-research (later runs)
+- **Gate:** none
 
 ## Feature
 
@@ -164,7 +175,7 @@ Every document the pipeline writes, in stage order: its main sections, where it 
 - **Output:** `<repo>/docs/product/<slug>/01-brief.md`
 - **Template:** brief-template.md (full edition)
 - **Checklist:** brief-review.md (full edition)
-- **Rules:** product-check.md (full edition), failure-analysis.md (full edition), alternatives.md (full edition), sizing.md (full edition), competitor-scan.md (full edition)
+- **Rules:** product-check.md (full edition), failure-analysis.md (full edition), alternatives.md (full edition), sizing.md (full edition), rules.md (full edition)
 - **Written by:** feature-discovery
 - **Read by:** feature-prd, feature-design, feature-retro, product-one-pager
 - **Gate:** Gate 1: go / validate-first / no-go, size S/M/L

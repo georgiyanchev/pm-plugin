@@ -1,6 +1,13 @@
 # Changelog
 
-Both editions share one version number. The free edition carries the four skills listed in the README; the full edition carries all eighteen.
+Both editions share one version number. The free edition carries the four skills listed in the README; the full edition carries all nineteen skills and nineteen agents.
+
+## 0.17.0 (2026-11-12)
+- New skill `competitor-research`: one place for all competitor research. Asks the purpose, reads prior research first, maps the buyer's alternatives across six levels, stops once to confirm which go deep, and writes a brief, a one-pager and print pages from one JSON record. Three presets (high-level, standard, deep).
+- `research_tool.py` inside the skill: record schema and validation, merge of agent parts, reuse of prior research through a registry at the ideas root, all-in pricing and break-even, mechanical checks on the record and the brief, Markdown and HTML rendering.
+- New agents `competitor-profiler`, `customer-voice-scanner` and `competitor-research-reviewer`; `competitor-scanner` gains map and moves modes; `competitor-knowledge-scanner` reads prior records and Markdown research.
+- `feature-discovery` uses its scan, `capability-gap-audit` its reuse and map (and registers its audit folder), and the discovery deep dive its profiler: one `deep` part per approved competitor, in parallel, with prior evidence and pricing captured, not computed; the deep dive is assembled from the parts. The competitor identifier accepts a `map` record when one is supplied. Ad hoc stages see the evidence of stages already committed in their folder, and discovery runs add a registry line so later research finds them.
+- `audit-check.py` flags a matrix row as a pricing tier only when its capability name is a tier label.
 
 ## 0.16.4 (2026-10-30)
 - `TEMPLATES.md` document map rendered as one block per document, grouped by stage.
