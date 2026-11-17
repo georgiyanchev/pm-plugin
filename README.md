@@ -4,7 +4,7 @@ A repeatable product process as skills: scaffold a project, explore and validate
 
 Built and used daily by one product manager since mid 2026: two consumer apps and a web SaaS run through it end to end, version by version ([CHANGELOG](CHANGELOG.md)).
 
-**Free edition** (this repository): four skills, installable today. **Full edition**: all nineteen skills and nineteen agents, available at [georgiyanchev.com/pm-plugin](https://georgiyanchev.com/pm-plugin/). The full command table below documents both; the Edition column says which is which, and each full-edition row links to a real example where one exists.
+**Free edition** (this repository): four skills, installable today. **Full edition**: all twenty skills and twenty agents, available at [georgiyanchev.com/pm-plugin](https://georgiyanchev.com/pm-plugin/). The full command table below documents both; the Edition column says which is which, and each full-edition row links to a real example where one exists.
 
 ## Install the free edition
 
@@ -45,8 +45,9 @@ Open a product repo, then type a slash command or say what you want in plain wor
 | `/pm:delivery-architecture [PRD path or slug] [review only]` | Between an approved PRD and the plan: an interview, a two-page stack proposal to accept or reject, the full architecture document (stack, decision table, data model, agent operating model, tasks with verification commands, risks), an independent review on the strongest model, one revision, and your call: adopt, adopt with changes or rethink. | Full | [architecture](examples/plateful/docs/development/2026-10-20-plateful-architecture.md) |
 | `/pm:delivery-build [architecture] [prototype, beta or release] [fix]` | Turns an adopted architecture into one implementation prompt per milestone that a fresh coding session runs unattended: launch gate, inputs with precedence, pre-flight, plan files, stories with verification commands, done criteria, working rules, final report. | Full | [build prompt](examples/plateful/docs/plan/prototype-implementation-prompt.md) |
 | `/pm:delivery-review [milestone or report] [close]` | The gate after an unattended build: every done-criteria command re-run into an evidence file, a read-only reviewer tests each claim against the code and the outputs, guardrail checks, findings as task blocks, and a device script for what only you can see. You run the script and close it. The release milestone adds a production-readiness audit. | Full | [build review](examples/plateful/docs/plan/prototype-build-review.md) |
-| `/pm:capability-gap-audit [slug]` | Capability inventory, competitor matrix, demand evidence, ranked gaps. Product scope without a slug, feature scope with one. Reads and appends your competitor research folder. | Full | [gap audit](examples/plateful/docs/product/audits/2026-10-15-capability-gaps.md) |
+| `/pm:capability-gap-audit [slug]` | Capability inventory, competitor matrix, demand evidence, ranked gaps. Product scope without a slug, feature scope with one. Rates each competitor through the competitor research skill and keeps one file per competitor in your competitor knowledge base (`docs/competitors/`). | Full | [gap audit](examples/plateful/docs/product/audits/2026-10-15-capability-gaps.md) |
 | `/pm:competitor-research <subject> [depth]` | Competitor research on a product, idea or category: asks the purpose, reads your prior research first, maps the buyer's alternatives across six levels, stops once to confirm which go deep, profiles them in parallel, computes all-in prices and break-even with its tool, and writes a brief and a one-pager from one JSON record. Authorizes nothing. | Full | - |
+| `/pm:audience-research [idea, repo, slug or feature] [depth]` | Researches the target audience of an idea, a product or a feature and fills `docs/product/target-audience.md`: reads your own data and prior research first, tests three to five candidate segments through four lenses (people and sizes, voice, questions and search language, market and spend), stops once so you pick the primary segment, then writes segments, jobs, personas, pains, channels and reach signals. Every line carries a claim tag pointing at an evidence ledger and every persona a confidence; desk research never claims `validated`. Authorizes nothing. | Full | - |
 | `/pm:feature-pipeline <idea or slug>` | Entry point for features on an existing product: reads `docs/product/<slug>/`, reports status, runs the next step. | Full | [feature brief](examples/plateful/docs/product/leftovers-view/01-brief.md) |
 | `/pm:feature-discovery <idea or slug>` | Intake, product check, failure analysis, assumptions, alternatives, sizing, brief. Gate 1. | Full | [feature brief](examples/plateful/docs/product/leftovers-view/01-brief.md) |
 | `/pm:feature-prd <slug>` | Repo scan, PRD (lite for size M, full for size L), review. Gate 2. | Full | [PRD-lite](examples/plateful/docs/product/leftovers-view/02-prd.md) |
@@ -89,7 +90,7 @@ Every document with its sections, template, checklist, output path, writers, rea
 
 ## Full edition
 
-All nineteen skills, nineteen agents, the discovery runner and the validator, with updates for twelve months and support through the issues here: [georgiyanchev.com/pm-plugin](https://georgiyanchev.com/pm-plugin/).
+All twenty skills, twenty agents, the discovery runner and the validator, with updates for twelve months and support through the issues here: [georgiyanchev.com/pm-plugin](https://georgiyanchev.com/pm-plugin/).
 
 ## Who built this
 

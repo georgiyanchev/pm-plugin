@@ -24,7 +24,7 @@ When the run folder holds `<date>-<slug>-architecture.md` with `status: adopted`
 
 ## Rules
 
-- Personas, voice, design, hosting and stack stay `TBD:`; discovery does not know them.
+- Voice, design, hosting and stack stay `TBD:`; discovery does not know them. In `target-audience.md` only the lines mapped above are filled; persona card detail, search language, channels and confidence stay `TBD:` for `audience-research`, which reads the run as prior knowledge.
 - Representative examples from a handoff are patterns to consider, never a feature list. Mention them in `docs/competitors/` through the export, not in `docs/product.md`.
 - Market sizing, scores and confidence numbers stay in the run; do not copy them into product context.
 - After filling, re-run the scaffold script with `-Check` and report which rows are still templates.

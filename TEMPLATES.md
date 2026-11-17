@@ -17,12 +17,12 @@ Every document the pipeline writes, in stage order: its main sections, where it 
 
 ### Target audience (segments `S-xx`, personas `P-xx`, jobs `J-xx`)
 
-- **Sections:** A. Summary: recommendation, primary segment, jobs to be done, not the target, personas · B. Insights: why this audience, secondary segments, persona cards, reach signals, updates, sources
-- **Output:** `<repo>/docs/product/target-audience.md`
-- **Template:** [templates/docs/product/target-audience.md](skills/project-scaffold/references/templates/docs/product/target-audience.md)
-- **Checklist:** brief-review 20, prd-review 19
-- **Rules:** artifact-conventions.md (full edition) (Target audience), [from-discovery.md](skills/project-scaffold/references/from-discovery.md)
-- **Written by:** project-scaffold; appended by feature-discovery, feature-prd, product-prd
+- **Sections:** A. Summary: recommendation, primary segment, who decides and who pays, jobs to be done, not the target, personas (with confidence) · B. Insights: why this audience, segment comparison, secondary segments, pains and current alternatives, persona cards, questions and search language, channels and communities, reach signals, confidence and open questions, updates, sources
+- **Output:** `<repo>/docs/product/target-audience.md` (or `<run>/target-audience.md` when no repo exists), with the research folder `<repo>/docs/product/audience-research/<date>/` (`scope.md`, `parts/`, `evidence.md`, `segments.md`, `review.md`)
+- **Template:** [templates/docs/product/target-audience.md](skills/project-scaffold/references/templates/docs/product/target-audience.md); a filled example: example/target-audience.md (full edition)
+- **Checklist:** audience-review.md (full edition) and `full edition: skills/audience-research/scripts/audience_check.py`; brief-review 20, prd-review 19
+- **Rules:** input-mapping.md (full edition), evidence.md (full edition), synthesis.md (full edition), scoping.md (full edition), lenses.md (full edition); artifact-conventions.md (full edition) (Target audience), [from-discovery.md](skills/project-scaffold/references/from-discovery.md)
+- **Written by:** project-scaffold (the template); audience-research (the researched content); appended by feature-discovery, feature-prd, product-prd
 - **Read by:** every brief, PRD, prototype brief, one-pager, quick record, marketing plan
 
 ### Voice
@@ -140,7 +140,7 @@ Every document the pipeline writes, in stage order: its main sections, where it 
 ### Capability gap audit and inventory
 
 - **Sections:** Scope boundary · Competitor set · Capability matrix · Gaps · Ranked gaps · Deliberate no · Unmet hypotheses · Diff against prior audit · Method notes · Not checked. Inventory: taxonomy table with have / partial / missing
-- **Output:** `<repo>/docs/product/audits/<date>-capability-gaps.md`, `<repo>/docs/product/capabilities.md` (feature scope: `<slug>/audits/`)
+- **Output:** `<repo>/docs/product/audits/<date>-capability-gaps.md`, its research folder `<repo>/docs/product/audits/<date>-research/` (`record.json`, `parts/`), `<repo>/docs/product/capabilities.md` (feature scope: `<slug>/audits/`); in `<repo>/docs/competitors/`, one `<competitor-id>.md` per competitor and `capabilities-<date>.md` (the matrix and the demand table)
 - **Template:** audit-template.md (full edition)
 - **Checklist:** audit-review.md (full edition)
 - **Rules:** taxonomy.md (full edition), gap-classification.md (full edition), knowledge-base.md (full edition), demand-evidence.md (full edition)
